@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace API.Controllers
+/*namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -97,3 +97,4 @@ namespace API.Controllers
         }
     }
 }
+*/

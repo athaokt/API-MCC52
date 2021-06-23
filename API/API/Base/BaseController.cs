@@ -63,7 +63,7 @@ namespace API.Base
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{key}")]
         public ActionResult Delete(Key key)
         {
             var delete = repository.Delete(key);
@@ -77,7 +77,7 @@ namespace API.Base
                 return Ok(new { status = HttpStatusCode.OK, result = delete, message = "Delete Success" });
             }
         }
-        [HttpPut]
+        [HttpPut("{key}")]
         public ActionResult Put(Entity entities, Key key)
         {   
             var update = repository.Update(entities, key);

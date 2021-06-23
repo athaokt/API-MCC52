@@ -42,5 +42,31 @@ namespace API.Controllers
             
             
         }
+        [HttpPost("ResetPassword")]
+        public ActionResult ResetPassword(LoginVM loginVM)
+        {
+            var reset = accountRepository.ResetPassword(loginVM);
+            if(reset > 0)
+            {
+                return Ok(new { status = HttpStatusCode.OK, result = loginVM, message = "Email berhasil dikirim" });
+            }
+            else
+            {
+                return BadRequest(new { status = HttpStatusCode.OK, result = loginVM, message = "Gagal mengirim email" });
+            }
+        }
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePassword(ChangePasswordVM changePasswordVM)
+        {
+            var reset = accountRepository.ChangePassword(changePasswordVM);
+            if (reset > 0)
+            {
+                return Ok(new { status = HttpStatusCode.OK, result = changePasswordVM, message = "Berhasil Ganti Password" });
+            }
+            else
+            {
+                return BadRequest(new { status = HttpStatusCode.OK, result = changePasswordVM, message = "Gagal Ganti Password" });
+            }
+        }
     }
 }
