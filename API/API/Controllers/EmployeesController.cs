@@ -1,93 +1,42 @@
-﻿using API.Models;
-using API.Repository;
+﻿using API.Base;
+using API.Context;
+using API.Models;
+using API.Repository.Data;
+using API.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class EmployeesController : BaseController<Employee, EmployeeRepository, string>
     {
         private EmployeeRepository employeeRepository;
-
-        public EmployeesController(EmployeeRepository employeeRepository)
+        public EmployeesController(EmployeeRepository employeeRepository) : base(employeeRepository)
         {
             this.employeeRepository = employeeRepository;
         }
-
-        [HttpGet]
-        public ActionResult Get(int Nik)
+        [HttpPost("Register")]
+        public ActionResult Register(RegisterVM registerVm)
         {
-            /*var get = employeeRepository.Get();
-            return Ok(get);*/
-            if (Nik == 0)
+            var insert = employeeRepository.Register(registerVm);
+            if (insert == 2)
             {
-                return Ok(employeeRepository.Get());
+                return Ok(new { status = HttpStatusCode.OK, result = insert, message = "Success" });
+            }
+            else if(insert == 1)
+            {
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = insert, message = "Email tidak boleh sama" });
             }
             else
             {
-                return Ok(employeeRepository.Get(Nik));
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Post(Employee employee)
-        {
-            var insert = employeeRepository.Insert(employee);
-            if(insert==1)
-            {
-                return Ok(insert);
-            }
-            else
-            {
-                return BadRequest();
-            }
-            
-        }
-
-        [HttpDelete]
-        public ActionResult Delete(int nik)
-        {
-            var response = employeeRepository.Delete(nik);
-            if(nik == 0)
-            {
-                return BadRequest("Fail to delete");
-            }
-            else
-            {
-                if (response == 1)
-                {
-                    return Ok("Delete Successful");
-                }
-                else
-                {
-                    return Ok("Delete failed");
-                }
-            }
-        }
-
-        public ActionResult Update(Employee employee, int nik)
-        {
-            var response = employeeRepository.Update(employee, nik);
-            if(nik == 0)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                if (response == 1)
-                {
-                    return Ok("Update Success");
-                }
-                else
-                {
-                    return Ok("Fail to Update");
-                }
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = insert, message = "NIK tidak boleh sama" });
             }
         }
     }

@@ -9,9 +9,9 @@ namespace API.Repository.Interfaces
     interface IEmployeeRepository
     {
         IEnumerable<Employee> Get();
-        Employee Get(int NIK);
+        Employee Get(string nik);
         int Insert(Employee employee);
-        int Update(Employee employee, int nik);
-        int Delete(int nik);
+        int Update(Employee employee, string nik);
+        int Delete(string nik);
     }
 }
