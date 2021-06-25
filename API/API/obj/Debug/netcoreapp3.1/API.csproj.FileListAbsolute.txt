@@ -66,3 +66,5 @@ C:\Users\User\source\repos\API\API\obj\Debug\netcoreapp3.1\API.dll
 C:\Users\User\source\repos\API\API\obj\Debug\netcoreapp3.1\API.pdb
 C:\Users\User\source\repos\API\API\obj\Debug\netcoreapp3.1\API.genruntimeconfig.cache
 C:\Users\User\source\repos\API\API\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
+C:\Users\User\source\repos\API\API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\User\source\repos\API\API\obj\Debug\netcoreapp3.1\API.csproj.AssemblyReference.cache

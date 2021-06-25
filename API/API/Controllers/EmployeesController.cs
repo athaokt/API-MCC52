@@ -39,5 +39,7 @@ namespace API.Controllers
                 return BadRequest(new { status = HttpStatusCode.BadRequest, result = insert, message = "NIK tidak boleh sama" });
             }
         }
+        
+
     }
 }

@@ -27,13 +27,13 @@ namespace API.Repository.Data
                 var cekEmail = myContext.Employees.Where(e => e.Email == registerVM.Email).FirstOrDefault<Employee>();
                 if (cekEmail == null)
                 {
-
                     /*var getRandomSalt = BCrypt.Net.BCrypt.GenerateSalt(12);*/
 
                     Employee employee = new Employee();
                     Account account = new Account();
                     Education education = new Education();
                     Profiling profiling = new Profiling();
+                    AccountRole accountRole = new AccountRole();
 
                     employee.NIK = registerVM.NIK;
                     employee.FirstName = registerVM.FirstName;
@@ -46,24 +46,30 @@ namespace API.Repository.Data
                     myContext.Employees.Add(employee);
                     myContext.SaveChanges();
 
-                    
-                    account.NIK = registerVM.NIK;
-                    account.Password = BCrypt.Net.BCrypt.HashPassword(registerVM.Password, GetRandomSalt());
-                    myContext.Accounts.Add(account);
+                    var password = BCrypt.Net.BCrypt.HashPassword(registerVM.Password, GetRandomSalt());
+                    var existingRole = myContext.Roles.Single(t => t.RoleId == 2);
+                    var newAccount = new Account()
+                    {
+                        NIK = registerVM.NIK,
+                        Password = password,
+                        Roles = new List<Role>()
+                    };
+                    newAccount.Roles.Add(existingRole);
+                    myContext.Accounts.Add(newAccount);
                     myContext.SaveChanges();
 
-                    
+
                     education.Degree = registerVM.Degree;
                     education.GPA = registerVM.GPA;
                     education.UniversityId = registerVM.UniversityId;
                     myContext.Educations.Add(education);
                     myContext.SaveChanges();
 
-                    
                     profiling.NIK = registerVM.NIK;
                     profiling.EducationId = education.EducationId;
                     myContext.Profilings.Add(profiling);
 
+                    
                     myContext.SaveChanges();
 
                     
@@ -75,9 +81,8 @@ namespace API.Repository.Data
             {
                 return 0;
             }
-            
-            
         }
+        
         public static string GetRandomSalt()
         {
             return BCrypt.Net.BCrypt.GenerateSalt(12);
